@@ -17,3 +17,9 @@
   --color-white: #fff;
   --color-black: #000;
 }
+
+body {
+  display: flex;
+  min-height: 100vh;
+  max-width: 100%;
+}

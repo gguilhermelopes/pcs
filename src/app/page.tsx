@@ -1,7 +1,5 @@
-import React from "react";
-
 const Home = () => {
-  return <div className="text-primary text-center">Hello world</div>;
+  return <div>Content</div>;
 };
 
 export default Home;
