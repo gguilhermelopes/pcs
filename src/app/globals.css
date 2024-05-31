@@ -6,11 +6,11 @@
   --color-primary: #8159db;
   --color-primary-200: #5b4689;
   --color-primary-100: #a38bd9;
-  --color-neutral-500: #1a1b1d;
-  --color-neutral-400: #343a40;
-  --color-neutral-300: #b6acce;
-  --color-neutral-200: #dad5e5;
-  --color-neutral-100: #fbfbfb;
+  --color-secondary-500: #1a1b1d;
+  --color-secondary-400: #817d8b;
+  --color-secondary-300: #b6acce;
+  --color-secondary-200: #dad5e5;
+  --color-secondary-100: #fbfbfb;
   --color-danger: #dc3545;
   --color-warning: #ffc107;
   --color-success: #28a745;
@@ -23,4 +23,6 @@ body {
   min-height: 100vh;
   max-width: 100%;
   box-sizing: border-box;
+  background: var(--color-white);
+  color: var(--color-secondary-500);
 }

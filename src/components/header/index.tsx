@@ -19,7 +19,7 @@ const Header = () => {
 
   return (
     <header className="flex items-center justify-between p-7">
-      <h1 className="ml-4 text-2xl text-neutral-500">
+      <h1 className="ml-4 text-2xl text-secondary500 dark:text-secondary200">
         {titleMapping[pathname as keyof typeof titleMapping]}
       </h1>
       <nav className="flex items-center gap-10">

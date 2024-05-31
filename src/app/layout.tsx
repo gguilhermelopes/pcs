@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Sidebar from "@/components/sidebar";
 import Header from "@/components/header";
+import { Providers } from "./providers";
 
 const monaSans = localFont({
   src: "./mona-sans.woff2",
@@ -20,13 +21,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="pt-BR" suppressHydrationWarning>
       <body className={monaSans.className}>
-        <Sidebar />
-        <div className="flex flex-col h-screen w-full">
-          <Header />
-          {children}
-        </div>
+        <Providers>
+          <Sidebar />
+          <div className="flex flex-col h-screen w-full bg-white dark:bg-neutral-900">
+            <Header />
+            {children}
+          </div>
+        </Providers>
       </body>
     </html>
   );

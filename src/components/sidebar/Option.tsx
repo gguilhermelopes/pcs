@@ -19,13 +19,15 @@ const Option = ({ label, icon, href, isSectionBreaker }: OptionProps) => {
     <li className="flex flex-col gap-2">
       <Link
         href={href}
-        className={`flex items-center gap-2 px-4 py-2 text-lg text-neutral-500 cursor-pointer rounded-md hover:bg-primary hover:text-white transition-colors ${
-          isSelected && "bg-primary text-white"
+        className={`flex items-center gap-2 px-4 py-2 text-lg cursor-pointer text-neutral-500 dark:text-neutral-300 rounded-md hover:bg-options-bg-gradient hover:text-white transition-colors ${
+          isSelected && "bg-options-bg-gradient text-white"
         }`}
       >
         <span>{icon}</span> {label}
       </Link>
-      {isSectionBreaker && <div className="h-px bg-neutral-200 my-2" />}
+      {isSectionBreaker && (
+        <div className="h-px bg-neutral-200/80 dark:bg-neutral-700/80 my-2" />
+      )}
     </li>
   );
 };
