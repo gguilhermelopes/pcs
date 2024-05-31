@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={monaSans.className}>
         <Sidebar />
-        <div>
+        <div className="flex flex-col h-screen w-full">
           <Header />
           {children}
         </div>
