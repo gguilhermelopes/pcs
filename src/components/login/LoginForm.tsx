@@ -29,14 +29,17 @@ const LoginForm = () => {
       </DefaultInput.Root>
       <Link
         href="/"
-        className="block self-end text-xs text-neutral-500 font-semibold underline"
+        className="block self-end text-xs text-neutral-500 font-semibold underline hover:text-neutral-800 dark:hover:text-neutral-300"
       >
         Esqueceu a senha?
       </Link>
       <Button.Root type="submit">Entrar</Button.Root>
       <span className="block text-xs text-neutral-500 font-semibold mt-4">
         Não consegue entrar?{" "}
-        <Link className="text-primary" href="/login">
+        <Link
+          className="text-primary hover:text-primary200 dark:hover:text-primary100"
+          href="/login"
+        >
           Entre em contato
         </Link>
       </span>

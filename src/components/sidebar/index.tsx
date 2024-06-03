@@ -49,7 +49,7 @@ const options = [
 
 const Sidebar = () => {
   return (
-    <div className="min-h-screen min-w-[300px] p-7 bg-secondary100 dark:bg-secondary500 border-r border-neutral-200/80 dark:border-neutral-700/80 ">
+    <div className="min-h-screen min-w-[300px] p-7 bg-secondary100 dark:bg-secondary500  border-r border-neutral-200/80 dark:border-neutral-700/80 ">
       <h1 className="text-3xl text-center text-primary mb-14">psy solutions</h1>
       <span className="text-secondary300 dark:text-secondary400 uppercase text-xs mb-4 block">
         gerenciamento
