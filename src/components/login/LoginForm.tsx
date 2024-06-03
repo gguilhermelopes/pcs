@@ -1,19 +1,47 @@
 "use client";
 
 import Link from "next/link";
+import { z } from "zod";
 import { Button } from "../UI/Button";
 import { DefaultInput } from "../UI/DefaultInput";
+import { LoginFormSchema } from "../../../lib/schema";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+export type LoginFormData = z.infer<typeof LoginFormSchema>;
 
 const LoginForm = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({ resolver: zodResolver(LoginFormSchema) });
+
+  const submitFormHandler: SubmitHandler<LoginFormData> = async (data) => {
+    console.log(data);
+    reset();
+  };
+
   return (
-    <form className="mt-8 flex flex-col gap-3 items-center justify-center">
+    <form
+      onSubmit={handleSubmit(submitFormHandler)}
+      className="mt-8 flex flex-col gap-3 items-center justify-center"
+    >
       <DefaultInput.Root>
         <DefaultInput.Label
           label="Usuário"
           id="username-label"
           htmlFor="username"
         />
-        <DefaultInput.Content id="username" placeholder="Usuário" />
+        <DefaultInput.Content
+          id="username"
+          placeholder="Usuário"
+          {...register("username")}
+        />
+        {errors.username?.message && (
+          <DefaultInput.ErrorMessage message={errors.username.message} />
+        )}
       </DefaultInput.Root>
       <DefaultInput.Root>
         <DefaultInput.Label
@@ -25,7 +53,11 @@ const LoginForm = () => {
           id="password"
           type="password"
           placeholder="Senha"
+          {...register("password")}
         />
+        {errors.password?.message && (
+          <DefaultInput.ErrorMessage message={errors.password.message} />
+        )}
       </DefaultInput.Root>
       <Link
         href="/"

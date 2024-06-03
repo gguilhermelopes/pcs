@@ -6,6 +6,7 @@ import EmployeesIcon from "./assets/EmployeesIcon";
 import InsurancesIcon from "./assets/InsurancesIcon";
 import UsersIcon from "./assets/UsersIcon";
 import HelpIcon from "./assets/HelpIcon";
+import Link from "next/link";
 
 const options = [
   {
@@ -49,8 +50,12 @@ const options = [
 
 const Sidebar = () => {
   return (
-    <div className="min-h-screen min-w-[300px] p-7 bg-secondary100 dark:bg-secondary500  border-r border-neutral-200/80 dark:border-neutral-700/80 ">
-      <h1 className="text-3xl text-center text-primary mb-14">psy solutions</h1>
+    <div className="min-h-screen min-w-[280px] p-7 bg-secondary100 dark:bg-secondary500  border-r border-neutral-200/80 dark:border-neutral-700/80 ">
+      <Link href="/">
+        <h1 className="text-3xl text-center text-primary mb-14">
+          psy solutions
+        </h1>
+      </Link>
       <span className="text-secondary300 dark:text-secondary400 uppercase text-xs mb-4 block">
         gerenciamento
       </span>
