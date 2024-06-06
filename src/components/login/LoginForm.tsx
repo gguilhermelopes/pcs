@@ -1,12 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import { use, useEffect, useState } from "react";
 import { z } from "zod";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import notify from "@/helpers/notify";
 import { Button } from "../UI/Button";
 import { DefaultInput } from "../UI/DefaultInput";
 import { LoginFormSchema } from "../../../lib/schema";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useRedirected } from "@/hooks/useRedirected";
 
 export type LoginFormData = z.infer<typeof LoginFormSchema>;
 
@@ -14,13 +18,31 @@ const LoginForm = () => {
   const {
     register,
     handleSubmit,
-    reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(LoginFormSchema) });
+  const router = useRouter();
+  const { isRedirected } = useRedirected();
+
+  useEffect(() => {
+    if (isRedirected) {
+      notify("Faça o login para continuar.", "warning");
+    }
+  }, [isRedirected]);
 
   const submitFormHandler: SubmitHandler<LoginFormData> = async (data) => {
-    console.log(data);
-    reset();
+    const response = await fetch("/api/login", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const userData = await response.json();
+    if (response.status === 200) {
+      notify(userData.message, "success");
+      router.push("/sessions");
+      router.refresh();
+    } else notify("Usuário ou senha inválidos.", "error");
   };
 
   return (

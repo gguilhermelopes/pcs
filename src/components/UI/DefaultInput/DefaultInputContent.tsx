@@ -15,5 +15,6 @@ const DefaultInputContent = forwardRef<
     />
   );
 });
+DefaultInputContent.displayName = "DefaultInputContent";
 
 export default DefaultInputContent;
