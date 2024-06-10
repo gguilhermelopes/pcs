@@ -1,5 +1,4 @@
 import { useTheme } from "next-themes";
-
 import DarkModeIcon from "./assets/DarkModeIcon";
 import LightModeIcon from "./assets/LightModeIcon";
 import { useIsMounted } from "@/hooks/useMounted";
