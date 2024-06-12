@@ -27,6 +27,28 @@ const config: Config = {
         "options-bg-gradient":
           "linear-gradient(90deg, rgba(129,89,219,1) 0%, rgba(163,139,217,1) 100%)",
       },
+      keyframes: {
+        leftToFull: {
+          to: { width: "100%" },
+        },
+        opacityToFull: {
+          to: { opacity: "1" },
+        },
+        opacityIn: {
+          to: { opacity: "initial", transform: "initial" },
+        },
+        spin: {
+          to: {
+            transform: "rotate(360deg)",
+          },
+        },
+      },
+      animation: {
+        "left-to-full": "leftToFull .3s forwards",
+        "opacity-to-full": "opacityToFull .3s forwards",
+        "opacity-in": "opacityIn .75s forwards",
+        "spin-loader": "spin 1s infinite",
+      },
     },
   },
   plugins: [],
