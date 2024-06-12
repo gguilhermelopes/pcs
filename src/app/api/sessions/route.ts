@@ -9,8 +9,6 @@ export async function POST(req: NextRequest) {
     return new NextResponse("Não autorizado.", { status: 401 });
   }
 
-  console.log(body);
-
   const response = await fetch(`${process.env.API_URL}/sessions`, {
     method: "POST",
     headers: {

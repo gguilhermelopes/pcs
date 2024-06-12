@@ -46,8 +46,8 @@ const AddSessionModalContent = ({
 
   const submitFormHandler: SubmitHandler<AddSessionFormData> = (data) => {
     const patient = patients.find((patient) => patient.id === data.patientId);
+
     if (!patient) return;
-    console.log(data.sessionDate);
 
     const { therapistId } = patient;
     const finalData = { ...data, therapistId };

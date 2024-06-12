@@ -7,6 +7,11 @@ import { cookies } from "next/headers";
 const SessionsPage = async () => {
   const user = await getUser();
   const token = cookies().get("token");
+
+  if (user?.status === "invalid" || !user) {
+    redirect("/login/?redirect=sessions");
+  }
+
   const headers = {
     Authorization: `Bearer ${token?.value}`,
   };
@@ -22,10 +27,6 @@ const SessionsPage = async () => {
     patients.json(),
     therapists.json(),
   ]);
-
-  if (user?.status === "invalid" || !user) {
-    redirect("/login/?redirect=sessions");
-  }
 
   return (
     <main className="p-8 overflow-y-auto">
