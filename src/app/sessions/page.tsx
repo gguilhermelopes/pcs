@@ -1,14 +1,7 @@
-import { redirect } from "next/navigation";
-import { getUser } from "@/helpers/getUser";
+import SessionsPage from "@/components/sessions/SessionsPage";
 
-const Sessions = async () => {
-  const user = await getUser();
-
-  if (user?.status === "invalid" || !user) {
-    redirect("/login/?redirect=sessions");
-  }
-
-  return <div>{user.username}</div>;
+const Sessions = () => {
+  return <SessionsPage />;
 };
 
 export default Sessions;
