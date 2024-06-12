@@ -11,6 +11,8 @@ import { Button } from "../UI/Button";
 import { DefaultInput } from "../UI/DefaultInput";
 import { LoginFormSchema } from "../../../lib/schema";
 import { useRedirected } from "@/hooks/useRedirected";
+import useLogin from "@/hooks/useLogin";
+import { Loader } from "../UI/Loader";
 
 export type LoginFormData = z.infer<typeof LoginFormSchema>;
 
@@ -21,6 +23,7 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(LoginFormSchema) });
   const router = useRouter();
+  const { mutate, isPending } = useLogin();
   const { isRedirected } = useRedirected();
 
   useEffect(() => {
@@ -30,19 +33,7 @@ const LoginForm = () => {
   }, [isRedirected]);
 
   const submitFormHandler: SubmitHandler<LoginFormData> = async (data) => {
-    const response = await fetch("/api/login", {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const userData = await response.json();
-    if (response.status === 200) {
-      notify(userData.message, "success");
-      router.push("/sessions");
-      router.refresh();
-    } else notify("Usuário ou senha inválidos.", "error");
+    mutate(data);
   };
 
   return (
@@ -87,7 +78,12 @@ const LoginForm = () => {
       >
         Esqueceu a senha?
       </Link>
-      <Button.Root type="submit">Entrar</Button.Root>
+      <Button.Root
+        className="flex flex-col justify-center items-center"
+        type="submit"
+      >
+        {isPending ? <Loader.Root className="w-5 h-5" /> : "Entrar"}
+      </Button.Root>
       <span className="block text-xs text-neutral-500 font-semibold mt-4">
         Não consegue entrar?{" "}
         <Link

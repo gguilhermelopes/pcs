@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import LoginForm from "./LoginForm";
 
 const LoginPage = () => {
@@ -7,9 +6,7 @@ const LoginPage = () => {
       <h2 className="text-xl text-primary dark:text-primary100 font-medium">
         Entre em sua conta
       </h2>
-      <Suspense fallback={<div>Carregando...</div>}>
-        <LoginForm />
-      </Suspense>
+      <LoginForm />
     </main>
   );
 };
