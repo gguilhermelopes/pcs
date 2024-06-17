@@ -1,22 +1,35 @@
+import notify from "@/helpers/notify";
 import { SessionCreate } from "@/interfaces/session";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
+import { Dispatch, SetStateAction } from "react";
 
 const createSession = async (data: SessionCreate) => {
-  return await fetch(`api/sessions`, {
+  const response = await fetch(`api/sessions`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(data),
   });
+
+  return response;
 };
 
-const useCreateSession = () => {
-  const queryClient = useQueryClient();
+const useCreateSession = (
+  setIsAddSessionModalOpen: Dispatch<SetStateAction<boolean>>
+) => {
   const mutate = useMutation({
     mutationFn: createSession,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["sessionId"] });
+    onSuccess: (data) => {
+      if (data.status !== 201)
+        notify(
+          "Erro ao criar a sessão! Verifique os campos preenchidos ou tente novamente mais tarde.",
+          "error"
+        );
+      else {
+        notify("Sessão criada com sucesso", "success");
+        setIsAddSessionModalOpen(false);
+      }
     },
   });
   return mutate;

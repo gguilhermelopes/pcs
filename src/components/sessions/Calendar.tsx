@@ -3,10 +3,11 @@
 import sessionsMapping from "@/helpers/sessionsMapping";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Modal from "../UI/Modal";
 import SingleSessionModalContent from "./SingleSessionModalContent";
 import AddSessionModalContent from "./AddSessionModalContent";
+import { Loader } from "../UI/Loader";
 
 interface CalendarProps {
   sessions: any;
@@ -26,10 +27,12 @@ const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
   return (
     <>
       <Modal.Root isModalOpen={isSingleSessionModalOpen}>
-        <SingleSessionModalContent
-          sessionId={singleEventId}
-          setIsModalOpen={setIsSingleSessionModalOpen}
-        />
+        <Suspense fallback={<Loader.Root />}>
+          <SingleSessionModalContent
+            sessionId={singleEventId}
+            setIsModalOpen={setIsSingleSessionModalOpen}
+          />
+        </Suspense>
       </Modal.Root>
       <Modal.Root isModalOpen={isAddSessionModalOpen}>
         <AddSessionModalContent

@@ -3,6 +3,8 @@ import { getUser } from "@/helpers/getUser";
 
 import Calendar from "./Calendar";
 import { cookies } from "next/headers";
+import { Suspense } from "react";
+import { Loader } from "../UI/Loader";
 
 const SessionsPage = async () => {
   const user = await getUser();
@@ -30,12 +32,14 @@ const SessionsPage = async () => {
 
   return (
     <main className="p-8 overflow-y-auto">
-      <Calendar
-        user={user}
-        sessions={sessionsData}
-        patients={patientsData}
-        therapists={therapistsData}
-      />
+      <Suspense fallback={<Loader.Root />}>
+        <Calendar
+          user={user}
+          sessions={sessionsData}
+          patients={patientsData}
+          therapists={therapistsData}
+        />
+      </Suspense>
     </main>
   );
 };

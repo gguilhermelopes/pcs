@@ -24,7 +24,7 @@ export const AddSessionFormSchema = z.object({
           issue.code === "invalid_date" ? "Data inválida." : defaultError,
       }),
     })
-    .min(new Date(), "A data tem que ser posterior à atual."),
+    .min(new Date(), "A data deve ser posterior à atual."),
   sessionDuration: z.coerce
     .number()
     .min(15, "Duração mínima de uma sessão é 15 minutos."),
@@ -40,7 +40,7 @@ export const AddSessionFormSchema = z.object({
   hasPatientAttended: z.boolean().default(false),
   sessionValue: z.coerce
     .number()
-    .min(40, "Valor mínimo de uma sessão é R$ 40,00"),
+    .min(40, "Valor mínimo de uma sessão é R$ 40,00."),
   isPaid: z.boolean().default(false),
   paymentDate: z
     .string()

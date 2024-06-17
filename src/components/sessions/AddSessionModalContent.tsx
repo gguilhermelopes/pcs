@@ -14,6 +14,7 @@ import { DefaultInput } from "../UI/DefaultInput";
 import { Button } from "../UI/Button";
 import useCreateSession from "@/hooks/useCreateSession";
 import { useRouter } from "next/navigation";
+import { Loader } from "../UI/Loader";
 
 interface AddSessionModalContentProps {
   patients: Patient[];
@@ -33,16 +34,9 @@ const AddSessionModalContent = ({
   } = useForm<AddSessionFormData>({
     resolver: zodResolver(AddSessionFormSchema),
   });
-  const { mutate, isSuccess } = useCreateSession();
+  const { mutate, isPending } = useCreateSession(setIsAddSessionModalOpen);
   const router = useRouter();
   const [therapist, setTherapist] = useState("Terapeuta");
-
-  useEffect(() => {
-    if (isSuccess) {
-      setIsAddSessionModalOpen(false);
-      router.refresh();
-    }
-  }, [isSuccess]);
 
   const submitFormHandler: SubmitHandler<AddSessionFormData> = (data) => {
     const patient = patients.find((patient) => patient.id === data.patientId);
@@ -322,10 +316,10 @@ const AddSessionModalContent = ({
         </DefaultInput.Root>
 
         <Button.Root
-          className="grid col-span-2 justify-self-center w-[400px]"
+          className="col-span-2 justify-self-center w-[400px] flex flex-col justify-center items-center"
           type="submit"
         >
-          Enviar
+          {isPending ? <Loader.Root className="w-5 h-5" /> : "Entrar"}
         </Button.Root>
       </form>
     </section>
