@@ -1,10 +1,4 @@
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +9,8 @@ import { Button } from "../UI/Button";
 import useCreateSession from "@/hooks/useCreateSession";
 import { useRouter } from "next/navigation";
 import { Loader } from "../UI/Loader";
+import CloseIcon from "../UI/assets/CloseIcon";
+import CloseButton from "../UI/Button/CloseButton";
 
 interface AddSessionModalContentProps {
   patients: Patient[];
@@ -35,7 +31,6 @@ const AddSessionModalContent = ({
     resolver: zodResolver(AddSessionFormSchema),
   });
   const { mutate, isPending } = useCreateSession(setIsAddSessionModalOpen);
-  const router = useRouter();
   const [therapist, setTherapist] = useState("Terapeuta");
 
   const submitFormHandler: SubmitHandler<AddSessionFormData> = (data) => {
@@ -54,9 +49,16 @@ const AddSessionModalContent = ({
     setTherapist(patient?.therapist || "Terapeuta");
   };
 
+  const handleCloseModalClick = () => {
+    setIsAddSessionModalOpen(false);
+  };
+
   return (
-    <section className="py-4 px-8 flex flex-col bg-neutral-300 dark:bg-neutral-900 rounded-lg">
-      <h2 className="text-xl text-center">Adicionar nova sessão</h2>
+    <section className="relative py-4 px-8 flex flex-col bg-neutral-300 dark:bg-neutral-900 rounded-lg">
+      <h2 className="text-xl font-semibold text-center">
+        Adicionar nova sessão
+      </h2>
+      <CloseButton handleCloseModalClick={handleCloseModalClick} />
       <form
         className="grid grid-cols-2 gap-x-12 gap-y-4 mt-4"
         onSubmit={handleSubmit(submitFormHandler)}
