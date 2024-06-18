@@ -68,6 +68,10 @@ const SelectPatient = ({
       ...styles,
       color: isDarkMode ? "rgb(229 229 229)" : "rgb(23 23 23 )",
     }),
+    input: (styles) => ({
+      ...styles,
+      color: isDarkMode ? "rgb(229 229 229)" : "rgb(23 23 23 )",
+    }),
   };
 
   return (
@@ -75,6 +79,7 @@ const SelectPatient = ({
       styles={selectStyles}
       options={mappedPatients}
       placeholder="Selecione um paciente"
+      noOptionsMessage={() => "Nenhum paciente encontrado"}
       onChange={(selectedOption) => {
         onChange(
           selectedOption ? (selectedOption as PatientOption).value : null

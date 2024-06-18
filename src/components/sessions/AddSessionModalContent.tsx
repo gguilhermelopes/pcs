@@ -11,6 +11,8 @@ import useCreateSession from "@/hooks/useCreateSession";
 import { Loader } from "../UI/Loader";
 import CloseButton from "../UI/Button/CloseButton";
 import SelectPatient, { PatientOption } from "./SelectPatient";
+import CheckboxRoot from "../UI/Checkbox/CheckboxRoot";
+import { Checkbox } from "../UI/Checkbox";
 
 interface AddSessionModalContentProps {
   patients: Patient[];
@@ -69,8 +71,12 @@ const AddSessionModalContent = ({
         className="grid grid-cols-3 gap-x-12 gap-y-4 mt-4"
         onSubmit={handleSubmit(submitFormHandler)}
       >
-        <div>
-          <DefaultInput.Root>Paciente</DefaultInput.Root>
+        <DefaultInput.Root>
+          <DefaultInput.Label
+            label="Paciente"
+            id="patientId-label"
+            htmlFor="patientId"
+          />
           <Controller
             control={control}
             name="patientId"
@@ -87,16 +93,14 @@ const AddSessionModalContent = ({
           {errors.patientId?.message && (
             <DefaultInput.ErrorMessage message={errors.patientId.message} />
           )}
-        </div>
+        </DefaultInput.Root>
 
         <DefaultInput.Root title="Selecione o paciente e o terapeuta será selecionado automaticamente.">
           <DefaultInput.Label
             label="Terapeuta"
             id="therapistId-label"
             htmlFor="therapistId"
-          >
-            Terapeuta
-          </DefaultInput.Label>
+          />
           <DefaultInput.Content
             disabled
             id="therapistId"
@@ -114,9 +118,7 @@ const AddSessionModalContent = ({
             label="Data da sessão"
             id="sessionDate-label"
             htmlFor="sessionDate"
-          >
-            Data da sessão
-          </DefaultInput.Label>
+          />
           <DefaultInput.Content
             id="sessionDate"
             placeholder="Data da sessão"
@@ -129,12 +131,10 @@ const AddSessionModalContent = ({
         </DefaultInput.Root>
         <DefaultInput.Root>
           <DefaultInput.Label
-            label="Duração da sessão"
+            label="Duração da sessão (minutos)"
             id="sessionDuration-label"
             htmlFor="sessionDuration"
-          >
-            Duração da sessão (min)
-          </DefaultInput.Label>
+          />
           <DefaultInput.Content
             type="number"
             placeholder="Duração da sessão em minutos"
@@ -148,42 +148,36 @@ const AddSessionModalContent = ({
           )}
         </DefaultInput.Root>
 
-        <DefaultInput.Root className="flex items-center gap-4">
-          <DefaultInput.Label
-            label="Sessão remota?"
-            id="isRemote-label"
-            htmlFor="isRemote"
-          >
-            Sessão remota?
-          </DefaultInput.Label>
-          <DefaultInput.Content
-            className="w-initial"
+        <Checkbox.Root className="flex items-center gap-4">
+          <Checkbox.Input
             type="checkbox"
             id="isRemote"
             {...register("isRemote")}
           />
+          <Checkbox.Label
+            label="Sessão remota?"
+            id="isRemote-label"
+            htmlFor="isRemote"
+          />
           {errors.isRemote?.message && (
             <DefaultInput.ErrorMessage message={errors.isRemote.message} />
           )}
-        </DefaultInput.Root>
-        <DefaultInput.Root className="flex items-center gap-4">
-          <DefaultInput.Label
-            label="Sessão autorizada?"
-            id="isAuthorized-label"
-            htmlFor="isAuthorized"
-          >
-            Sessão autorizada?
-          </DefaultInput.Label>
-          <DefaultInput.Content
-            className="w-initial"
+        </Checkbox.Root>
+        <Checkbox.Root className="flex items-center gap-4">
+          <Checkbox.Input
             type="checkbox"
             id="isAuthorized"
             {...register("isAuthorized")}
           />
+          <Checkbox.Label
+            label="Sessão autorizada?"
+            id="isAuthorized-label"
+            htmlFor="isAuthorized"
+          />
           {errors.isAuthorized?.message && (
             <DefaultInput.ErrorMessage message={errors.isAuthorized.message} />
           )}
-        </DefaultInput.Root>
+        </Checkbox.Root>
 
         <DefaultInput.Root>
           <DefaultInput.Label label="Token" id="token-label" htmlFor="token">
@@ -203,9 +197,7 @@ const AddSessionModalContent = ({
             label="Data da autorização"
             id="authorizationDate-label"
             htmlFor="authorizationDate"
-          >
-            Data da autorização
-          </DefaultInput.Label>
+          />
           <DefaultInput.Content
             id="authorizationDate"
             placeholder="Data da autorização"
@@ -219,34 +211,29 @@ const AddSessionModalContent = ({
           )}
         </DefaultInput.Root>
 
-        <DefaultInput.Root className="flex items-center gap-4">
-          <DefaultInput.Label
-            label="Paciente compareceu?"
-            id="hasPatientAttended-label"
-            htmlFor="hasPatientAttended"
-          >
-            Paciente compareceu?
-          </DefaultInput.Label>
-          <DefaultInput.Content
-            className="w-initial"
+        <Checkbox.Root className="flex items-center gap-4">
+          <Checkbox.Input
             type="checkbox"
             id="hasPatientAttended"
             {...register("hasPatientAttended")}
+          />
+          <Checkbox.Label
+            label="Paciente compareceu?"
+            id="hasPatientAttended-label"
+            htmlFor="hasPatientAttended"
           />
           {errors.hasPatientAttended?.message && (
             <DefaultInput.ErrorMessage
               message={errors.hasPatientAttended.message}
             />
           )}
-        </DefaultInput.Root>
+        </Checkbox.Root>
         <DefaultInput.Root>
           <DefaultInput.Label
             label="Valor da sessão"
             id="sessionValue-label"
             htmlFor="sessionValue"
-          >
-            Valor da sessão (R$)
-          </DefaultInput.Label>
+          />
           <DefaultInput.Content
             type="number"
             placeholder="Valor da sessão em reais"
@@ -258,33 +245,23 @@ const AddSessionModalContent = ({
           )}
         </DefaultInput.Root>
 
-        <DefaultInput.Root className="flex items-center gap-4">
-          <DefaultInput.Label
+        <Checkbox.Root className="flex items-center gap-4">
+          <Checkbox.Input type="checkbox" id="isPaid" {...register("isPaid")} />
+          <Checkbox.Label
             label="Sessão paga?"
             id="isPaid-label"
             htmlFor="isPaid"
-          >
-            Sessão paga?
-          </DefaultInput.Label>
-
-          <DefaultInput.Content
-            className="w-initial"
-            type="checkbox"
-            id="isPaid"
-            {...register("isPaid")}
           />
           {errors.isPaid?.message && (
             <DefaultInput.ErrorMessage message={errors.isPaid.message} />
           )}
-        </DefaultInput.Root>
+        </Checkbox.Root>
         <DefaultInput.Root>
           <DefaultInput.Label
             label="Data do pagamento"
             id="paymentDate-label"
             htmlFor="paymentDate"
-          >
-            Data do pagamento
-          </DefaultInput.Label>
+          />
           <DefaultInput.Content
             id="paymentDate"
             placeholder="Data do pagamento"
@@ -296,33 +273,27 @@ const AddSessionModalContent = ({
           )}
         </DefaultInput.Root>
 
-        <DefaultInput.Root className="flex items-center gap-4">
-          <DefaultInput.Label
-            label="Sessão contabilizada?"
-            id="isAccounted-label"
-            htmlFor="isAccounted"
-          >
-            Sessão contabilizada?
-          </DefaultInput.Label>
-
-          <DefaultInput.Content
-            className="w-initial"
+        <Checkbox.Root className="flex items-center gap-4">
+          <Checkbox.Input
             type="checkbox"
             id="isAccounted"
             {...register("isAccounted")}
           />
+          <Checkbox.Label
+            label="Sessão contabilizada?"
+            id="isAccounted-label"
+            htmlFor="isAccounted"
+          />
           {errors.isAccounted?.message && (
             <DefaultInput.ErrorMessage message={errors.isAccounted.message} />
           )}
-        </DefaultInput.Root>
+        </Checkbox.Root>
         <DefaultInput.Root>
           <DefaultInput.Label
             label="Data da contabilização"
             id="accountDate-label"
             htmlFor="accountDate"
-          >
-            Data da contabilização
-          </DefaultInput.Label>
+          />
           <DefaultInput.Content
             id="accountDate"
             placeholder="Data da contabilização"
@@ -335,7 +306,7 @@ const AddSessionModalContent = ({
         </DefaultInput.Root>
 
         <Button.Root
-          className="col-span-3 justify-self-center w-[400px] flex flex-col justify-center items-center"
+          className="col-span-3 justify-self-center w-[600px] flex flex-col justify-center items-center"
           type="submit"
         >
           {isPending ? <Loader.Root className="w-5 h-5" /> : "Adicionar Sessão"}

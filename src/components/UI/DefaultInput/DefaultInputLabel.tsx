@@ -1,16 +1,11 @@
-import { LabelHTMLAttributes, ReactNode } from "react";
+import { LabelHTMLAttributes } from "react";
 
 interface DefaultInputLabelProps extends LabelHTMLAttributes<HTMLLabelElement> {
-  label: string;
-  children?: ReactNode;
+  label?: string;
 }
 
-const DefaultInputLabel = ({
-  label,
-  children,
-  ...props
-}: DefaultInputLabelProps) => {
-  return <label {...props}>{children}</label>;
+const DefaultInputLabel = ({ label, ...props }: DefaultInputLabelProps) => {
+  return <label {...props}>{label}</label>;
 };
 
 export default DefaultInputLabel;
