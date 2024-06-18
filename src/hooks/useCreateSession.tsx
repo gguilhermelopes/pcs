@@ -1,6 +1,7 @@
 import notify from "@/helpers/notify";
 import { SessionCreate } from "@/interfaces/session";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
 const createSession = async (data: SessionCreate) => {
@@ -18,6 +19,7 @@ const createSession = async (data: SessionCreate) => {
 const useCreateSession = (
   setIsAddSessionModalOpen: Dispatch<SetStateAction<boolean>>
 ) => {
+  const router = useRouter();
   const mutate = useMutation({
     mutationFn: createSession,
     onSuccess: (data) => {
@@ -29,6 +31,7 @@ const useCreateSession = (
       else {
         notify("Sessão criada com sucesso", "success");
         setIsAddSessionModalOpen(false);
+        router.refresh();
       }
     },
   });

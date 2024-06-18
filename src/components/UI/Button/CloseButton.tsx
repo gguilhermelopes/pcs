@@ -1,7 +1,5 @@
-import React from "react";
 import { Button } from ".";
 import CloseIcon from "../assets/CloseIcon";
-import { ButtonRootProps } from "./ButtonRoot";
 import { twMerge } from "tailwind-merge";
 
 interface CloseButtonProps {

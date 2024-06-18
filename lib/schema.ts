@@ -13,7 +13,7 @@ export const LoginFormSchema = z.object({
 
 export const AddSessionFormSchema = z.object({
   patientId: z
-    .string()
+    .string({ message: "Paciente é obrigatório." })
     .uuid("Id do paciente inválido.")
     .min(1, "Paciente obrigatório."),
   therapistId: z.string().uuid("Id do terapeuta inválido.").optional(),
@@ -26,7 +26,7 @@ export const AddSessionFormSchema = z.object({
     })
     .min(new Date(), "A data deve ser posterior à atual."),
   sessionDuration: z.coerce
-    .number()
+    .number({ message: "Duração da sessão é obrigatória." })
     .min(15, "Duração mínima de uma sessão é 15 minutos."),
   isRemote: z.boolean().default(false),
   isAuthorized: z.boolean().default(false),
@@ -39,7 +39,7 @@ export const AddSessionFormSchema = z.object({
     .optional(),
   hasPatientAttended: z.boolean().default(false),
   sessionValue: z.coerce
-    .number()
+    .number({ message: "Valor da sessão é obrigatório." })
     .min(40, "Valor mínimo de uma sessão é R$ 40,00."),
   isPaid: z.boolean().default(false),
   paymentDate: z

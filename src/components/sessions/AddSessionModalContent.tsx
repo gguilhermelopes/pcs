@@ -1,16 +1,16 @@
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
+import { SingleValue } from "react-select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Patient } from "@/interfaces/patient";
 import { AddSessionFormSchema } from "../../../lib/schema";
 import { DefaultInput } from "../UI/DefaultInput";
 import { Button } from "../UI/Button";
 import useCreateSession from "@/hooks/useCreateSession";
-import { useRouter } from "next/navigation";
 import { Loader } from "../UI/Loader";
-import CloseIcon from "../UI/assets/CloseIcon";
 import CloseButton from "../UI/Button/CloseButton";
+import SelectPatient, { PatientOption } from "./SelectPatient";
 
 interface AddSessionModalContentProps {
   patients: Patient[];
@@ -26,6 +26,7 @@ const AddSessionModalContent = ({
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<AddSessionFormData>({
     resolver: zodResolver(AddSessionFormSchema),
@@ -43,8 +44,8 @@ const AddSessionModalContent = ({
     mutate(finalData);
   };
 
-  const handlePatientChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    const selectedPatient = event.target.value;
+  const handlePatientChange = (event: SingleValue<PatientOption>) => {
+    const selectedPatient = event?.value;
     const patient = patients.find((patient) => patient.id === selectedPatient);
     setTherapist(patient?.therapist || "Terapeuta");
   };
@@ -53,33 +54,49 @@ const AddSessionModalContent = ({
     setIsAddSessionModalOpen(false);
   };
 
+  const mappedPatients = patients.map((patient) => ({
+    value: patient.id,
+    label: patient.name,
+  }));
+
   return (
-    <section className="relative py-4 px-8 flex flex-col bg-neutral-300 dark:bg-neutral-900 rounded-lg">
-      <h2 className="text-xl font-semibold text-center">
+    <section className="relative py-6 px-12 flex flex-col bg-neutral-300 dark:bg-neutral-900 rounded-lg">
+      <h2 className="text-xl font-semibold text-center mb-4">
         Adicionar nova sessão
       </h2>
       <CloseButton handleCloseModalClick={handleCloseModalClick} />
       <form
-        className="grid grid-cols-2 gap-x-12 gap-y-4 mt-4"
+        className="grid grid-cols-3 gap-x-12 gap-y-4 mt-4"
         onSubmit={handleSubmit(submitFormHandler)}
       >
-        <select
-          id="patientId"
-          {...register("patientId")}
-          onChange={handlePatientChange}
-        >
-          {patients.map((patient) => (
-            <option key={patient.id} value={patient.id}>
-              {patient.name}
-            </option>
-          ))}
-        </select>
-        <DefaultInput.Root>
+        <div>
+          <DefaultInput.Root>Paciente</DefaultInput.Root>
+          <Controller
+            control={control}
+            name="patientId"
+            render={({ field: { onChange, onBlur, ref } }) => (
+              <SelectPatient
+                onChange={onChange}
+                onBlur={onBlur}
+                ref={ref}
+                handlePatientChange={handlePatientChange}
+                mappedPatients={mappedPatients}
+              />
+            )}
+          />
+          {errors.patientId?.message && (
+            <DefaultInput.ErrorMessage message={errors.patientId.message} />
+          )}
+        </div>
+
+        <DefaultInput.Root title="Selecione o paciente e o terapeuta será selecionado automaticamente.">
           <DefaultInput.Label
             label="Terapeuta"
             id="therapistId-label"
             htmlFor="therapistId"
-          />
+          >
+            Terapeuta
+          </DefaultInput.Label>
           <DefaultInput.Content
             disabled
             id="therapistId"
@@ -318,10 +335,10 @@ const AddSessionModalContent = ({
         </DefaultInput.Root>
 
         <Button.Root
-          className="col-span-2 justify-self-center w-[400px] flex flex-col justify-center items-center"
+          className="col-span-3 justify-self-center w-[400px] flex flex-col justify-center items-center"
           type="submit"
         >
-          {isPending ? <Loader.Root className="w-5 h-5" /> : "Entrar"}
+          {isPending ? <Loader.Root className="w-5 h-5" /> : "Adicionar Sessão"}
         </Button.Root>
       </form>
     </section>
