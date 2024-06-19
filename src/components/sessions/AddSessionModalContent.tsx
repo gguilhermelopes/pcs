@@ -33,7 +33,7 @@ const AddSessionModalContent = ({
     resolver: zodResolver(AddSessionFormSchema),
   });
   const { mutate, isPending } = useCreateSession(setIsAddSessionModalOpen);
-  const [therapist, setTherapist] = useState("Terapeuta");
+  const [selectedTherapist, setSelectedTherapist] = useState("Terapeuta");
 
   const submitFormHandler: SubmitHandler<AddSessionFormData> = (data) => {
     const patient = patients.find((patient) => patient.id === data.patientId);
@@ -48,7 +48,7 @@ const AddSessionModalContent = ({
   const handlePatientChange = (event: SingleValue<Option>) => {
     const selectedPatient = event?.value;
     const patient = patients.find((patient) => patient.id === selectedPatient);
-    setTherapist(patient?.therapist || "Terapeuta");
+    setSelectedTherapist(patient?.therapist || "Terapeuta");
   };
 
   const handleCloseModalClick = () => {
@@ -105,7 +105,7 @@ const AddSessionModalContent = ({
             id="therapistId"
             placeholder="Terapeuta"
             {...register("therapistId")}
-            value={therapist}
+            value={selectedTherapist}
           />
           {errors.therapistId?.message && (
             <DefaultInput.ErrorMessage message={errors.therapistId.message} />

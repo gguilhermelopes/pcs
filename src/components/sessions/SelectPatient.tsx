@@ -1,7 +1,7 @@
-import setSelectStyles from "@/helpers/setSelectStyles";
 import { useTheme } from "next-themes";
-import { LegacyRef } from "react";
+import { forwardRef } from "react";
 import Select, { GroupBase, SelectInstance, SingleValue } from "react-select";
+import setSelectStyles from "@/helpers/setSelectStyles";
 
 export interface Option {
   readonly value: string;
@@ -11,21 +11,16 @@ export interface Option {
 interface SelectPatientProps {
   onChange: (value: string | null) => void;
   onBlur: () => void;
-  ref: LegacyRef<SelectInstance<Option, boolean, GroupBase<Option>>>;
   handlePatientChange: (value: SingleValue<Option>) => void;
   mappedPatients: Option[];
 }
 
-const SelectPatient = ({
-  onChange,
-  onBlur,
-  ref,
-  handlePatientChange,
-  mappedPatients,
-}: SelectPatientProps) => {
+const SelectPatient = forwardRef<
+  SelectInstance<Option, boolean, GroupBase<Option>>,
+  SelectPatientProps
+>(({ onChange, mappedPatients, onBlur, handlePatientChange }, ref) => {
   const { theme } = useTheme();
   const isDarkMode = theme === "dark";
-
   const selectStyles = setSelectStyles(isDarkMode);
 
   return (
@@ -42,6 +37,8 @@ const SelectPatient = ({
       ref={ref}
     />
   );
-};
+});
+
+SelectPatient.displayName = "SelectPatient";
 
 export default SelectPatient;

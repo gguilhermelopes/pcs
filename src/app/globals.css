@@ -79,4 +79,5 @@ body {
 
 .dark {
   --fc-border-color: #333;
+  --fc-button-bg-color: #a38bd9;
 }

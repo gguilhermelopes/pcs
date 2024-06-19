@@ -3,7 +3,7 @@
 import sessionsMapping from "@/helpers/sessionsMapping";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Suspense, useState } from "react";
+import { Suspense, use, useEffect, useState } from "react";
 import Modal from "../UI/Modal";
 import SingleSessionModalContent from "./SingleSessionModalContent";
 import AddSessionModalContent from "./AddSessionModalContent";
@@ -12,7 +12,7 @@ import SelectTherapistModalContent from "./SelectTherapistModalContent";
 import { Session } from "@/interfaces/session";
 import { Patient } from "@/interfaces/patient";
 import { Therapist } from "@/interfaces/therapist";
-import DarkModeIcon from "../header/assets/DarkModeIcon";
+import { set } from "zod";
 
 interface CalendarProps {
   sessions: Session[];
@@ -38,6 +38,19 @@ const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
   const events = sessionsMapping(
     sessions.filter((session) => session.therapistId === therapist.value)
   );
+
+  useEffect(() => {
+    const currentTherapist = localStorage.getItem("currentTherapist");
+    if (currentTherapist) {
+      const findTherapist = mappedTherapists(therapists).find(
+        (therapist) => therapist.value === currentTherapist
+      );
+      if (findTherapist) {
+        setTherapist(findTherapist);
+        localStorage.removeItem("currentTherapist");
+      }
+    }
+  }, [setTherapist, therapists]);
 
   return (
     <>
