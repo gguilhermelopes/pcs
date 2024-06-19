@@ -31,7 +31,7 @@ const SessionsPage = async () => {
   ]);
 
   return (
-    <main className="p-8 overflow-y-auto">
+    <main className="px-8 pb-8 overflow-y-auto">
       <Suspense fallback={<Loader.Root />}>
         <Calendar
           user={user}

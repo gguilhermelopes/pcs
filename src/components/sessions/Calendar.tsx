@@ -12,7 +12,6 @@ import SelectTherapistModalContent from "./SelectTherapistModalContent";
 import { Session } from "@/interfaces/session";
 import { Patient } from "@/interfaces/patient";
 import { Therapist } from "@/interfaces/therapist";
-import { set } from "zod";
 
 interface CalendarProps {
   sessions: Session[];
@@ -75,6 +74,7 @@ const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
           setIsTherapistModalOpen={setIsTherapistModalOpen}
         />
       </Modal.Root>
+      <h2 className="text-center mb-4 text-xl">{therapist.label}</h2>
       <FullCalendar
         events={events}
         eventClick={(info) => {
