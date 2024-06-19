@@ -10,8 +10,7 @@ import { Button } from "../UI/Button";
 import useCreateSession from "@/hooks/useCreateSession";
 import { Loader } from "../UI/Loader";
 import CloseButton from "../UI/Button/CloseButton";
-import SelectPatient, { PatientOption } from "./SelectPatient";
-import CheckboxRoot from "../UI/Checkbox/CheckboxRoot";
+import SelectPatient, { Option } from "./SelectPatient";
 import { Checkbox } from "../UI/Checkbox";
 
 interface AddSessionModalContentProps {
@@ -46,7 +45,7 @@ const AddSessionModalContent = ({
     mutate(finalData);
   };
 
-  const handlePatientChange = (event: SingleValue<PatientOption>) => {
+  const handlePatientChange = (event: SingleValue<Option>) => {
     const selectedPatient = event?.value;
     const patient = patients.find((patient) => patient.id === selectedPatient);
     setTherapist(patient?.therapist || "Terapeuta");
@@ -63,9 +62,9 @@ const AddSessionModalContent = ({
 
   return (
     <section className="relative py-6 px-12 flex flex-col bg-neutral-300 dark:bg-neutral-900 rounded-lg">
-      <h2 className="text-xl font-semibold text-center mb-4">
+      <h1 className="text-xl font-semibold text-center mb-4">
         Adicionar nova sessão
-      </h2>
+      </h1>
       <CloseButton handleCloseModalClick={handleCloseModalClick} />
       <form
         className="grid grid-cols-3 gap-x-12 gap-y-4 mt-4"

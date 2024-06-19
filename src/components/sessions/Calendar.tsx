@@ -8,21 +8,36 @@ import Modal from "../UI/Modal";
 import SingleSessionModalContent from "./SingleSessionModalContent";
 import AddSessionModalContent from "./AddSessionModalContent";
 import { Loader } from "../UI/Loader";
+import SelectTherapistModalContent from "./SelectTherapistModalContent";
+import { Session } from "@/interfaces/session";
+import { Patient } from "@/interfaces/patient";
+import { Therapist } from "@/interfaces/therapist";
+import DarkModeIcon from "../header/assets/DarkModeIcon";
 
 interface CalendarProps {
-  sessions: any;
+  sessions: Session[];
   user: any;
-  patients: any;
-  therapists: any;
+  patients: Patient[];
+  therapists: Therapist[];
 }
 
+const mappedTherapists = (therapists: Therapist[]) => {
+  return therapists.map((therapist) => ({
+    value: therapist.id,
+    label: therapist.name,
+  }));
+};
+
 const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
-  const events = sessionsMapping(sessions);
-  const [therapist, setTherapist] = useState("Terapeuta");
+  const [therapist, setTherapist] = useState(mappedTherapists(therapists)[0]);
   const [isSingleSessionModalOpen, setIsSingleSessionModalOpen] =
     useState(false);
   const [isAddSessionModalOpen, setIsAddSessionModalOpen] = useState(false);
+  const [isTherapistModalOpen, setIsTherapistModalOpen] = useState(false);
   const [singleEventId, setSingleEventId] = useState<string | null>(null);
+  const events = sessionsMapping(
+    sessions.filter((session) => session.therapistId === therapist.value)
+  );
 
   return (
     <>
@@ -40,6 +55,13 @@ const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
           setIsAddSessionModalOpen={setIsAddSessionModalOpen}
         />
       </Modal.Root>
+      <Modal.Root isModalOpen={isTherapistModalOpen}>
+        <SelectTherapistModalContent
+          therapists={mappedTherapists(therapists)}
+          setTherapist={setTherapist}
+          setIsTherapistModalOpen={setIsTherapistModalOpen}
+        />
+      </Modal.Root>
       <FullCalendar
         events={events}
         eventClick={(info) => {
@@ -54,14 +76,13 @@ const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
           center: "title",
         }}
         locale="pt-br"
+        buttonIcons={{ prev: "chevron-left", next: "chevron-right" }}
         buttonText={{
           today: "Hoje",
           month: "Mês",
           week: "Semana",
           day: "Dia",
           list: "Agenda",
-          prev: "Anterior",
-          next: "Próximo",
           agenda: "Agenda",
           timeGridWeek: "Semana",
           timeGridDay: "Dia",
@@ -70,13 +91,13 @@ const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
         }}
         customButtons={{
           therapistBtn: {
-            text: therapist,
+            text: therapist.label,
             click: () => {
-              console.log("Terapeuta");
+              setIsTherapistModalOpen(true);
             },
           },
           addSessionBtn: {
-            text: "Adicionar sessão",
+            text: "Criar sessão",
             click: () => {
               setIsAddSessionModalOpen(true);
             },
