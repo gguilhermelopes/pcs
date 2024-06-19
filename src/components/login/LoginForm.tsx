@@ -42,11 +42,7 @@ const LoginForm = () => {
       className="mt-8 flex flex-col gap-3 items-center justify-center"
     >
       <DefaultInput.Root>
-        <DefaultInput.Label
-          label="Usuário"
-          id="username-label"
-          htmlFor="username"
-        />
+        <DefaultInput.Label id="username-label" htmlFor="username" />
         <DefaultInput.Content
           id="username"
           placeholder="Usuário"
@@ -57,11 +53,7 @@ const LoginForm = () => {
         )}
       </DefaultInput.Root>
       <DefaultInput.Root>
-        <DefaultInput.Label
-          label="Senha"
-          id="password-label"
-          htmlFor="password"
-        />
+        <DefaultInput.Label id="password-label" htmlFor="password" />
         <DefaultInput.Content
           id="password"
           type="password"

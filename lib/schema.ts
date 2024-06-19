@@ -5,10 +5,7 @@ export const LoginFormSchema = z.object({
     .string()
     .min(1, "Forneça seu email.")
     .email("Forneça um email válido."),
-  password: z
-    .string()
-    .min(1, "Forneça sua senha.")
-    .min(7, "A senha deve ter no mínimo 7 caracteres."),
+  password: z.string().min(1, "Forneça sua senha."),
 });
 
 export const AddSessionFormSchema = z.object({
