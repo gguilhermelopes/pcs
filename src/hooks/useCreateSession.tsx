@@ -22,18 +22,22 @@ const useCreateSession = (
   const router = useRouter();
   const mutate = useMutation({
     mutationFn: createSession,
-    onSuccess: (data, obj) => {
-      if (data.status !== 201)
-        notify(
-          "Erro ao criar a sessão! Verifique os campos preenchidos ou tente novamente mais tarde.",
-          "error"
-        );
-      else {
+    onSuccess: async (response, obj) => {
+      const data = await response.json();
+      if (response.status == 201) {
         notify("Sessão criada com sucesso", "success");
         setIsAddSessionModalOpen(false);
         localStorage.setItem("currentTherapist", obj.therapistId);
         router.refresh();
+      } else if (response.status === 400) {
+        notify(
+          `Erro ao criar a sessão. ${data.message && data.message}`,
+          "error"
+        );
       }
+    },
+    onError: () => {
+      notify(`Erro ao criar a sessão.`, "error");
     },
   });
   return mutate;
