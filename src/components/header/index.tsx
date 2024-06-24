@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import HeaderButtons from "./HeaderButtons";
 import HeaderProfile from "./HeaderProfile";
 import { useRedirected } from "@/hooks/useRedirected";
@@ -17,6 +17,7 @@ const titleMapping = {
 
 const Header = () => {
   const pathname = usePathname();
+
   const { isRedirected } = useRedirected();
 
   return (

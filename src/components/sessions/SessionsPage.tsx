@@ -1,9 +1,8 @@
-import { redirect } from "next/navigation";
-import { getUser } from "@/helpers/getUser";
-
-import Calendar from "./Calendar";
-import { cookies } from "next/headers";
 import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
+import { getUser } from "@/helpers/getUser";
+import Calendar from "./Calendar";
 import { Loader } from "../UI/Loader";
 
 const SessionsPage = async () => {
