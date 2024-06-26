@@ -1,48 +1,68 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 import { SingleValue } from "react-select";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Patient } from "@/interfaces/patient";
-import { AddSessionFormSchema } from "../../../lib/schema";
+import useSingleSession from "@/hooks/useSingleSession";
+import useCreateSession from "@/hooks/useCreateSession";
+import formatDateTimeForInput from "@/helpers/formatDateTimeForInput";
+import { SessionFormSchema } from "../../../lib/schema";
 import { DefaultInput } from "../UI/DefaultInput";
 import { Button } from "../UI/Button";
-import useCreateSession from "@/hooks/useCreateSession";
 import { Loader } from "../UI/Loader";
 import CloseButton from "../UI/Button/CloseButton";
 import SelectPatient, { Option } from "./SelectPatient";
 import { Checkbox } from "../UI/Checkbox";
+import useEditSession from "@/hooks/useEditSession";
 
-interface AddSessionModalContentProps {
+interface SessionModalContentProps {
   patients: Patient[];
   setIsAddSessionModalOpen: Dispatch<SetStateAction<boolean>>;
+  isEdit?: boolean;
+  sessionId?: string;
 }
 
-export type AddSessionFormData = z.infer<typeof AddSessionFormSchema>;
+export type SessionFormData = z.infer<typeof SessionFormSchema>;
 
-const AddSessionModalContent = ({
+const SessionModalContent = ({
   patients,
   setIsAddSessionModalOpen,
-}: AddSessionModalContentProps) => {
+  isEdit,
+  sessionId,
+}: SessionModalContentProps) => {
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
-  } = useForm<AddSessionFormData>({
-    resolver: zodResolver(AddSessionFormSchema),
+  } = useForm<SessionFormData>({
+    resolver: zodResolver(SessionFormSchema),
   });
-  const { mutate, isPending } = useCreateSession(setIsAddSessionModalOpen);
+
+  const { mutate: createSession, isPending: isCreateSessionPending } =
+    useCreateSession(setIsAddSessionModalOpen);
+  const { mutate: editSession, isPending: isEditSessionPending } =
+    useEditSession(sessionId || "", setIsAddSessionModalOpen);
+  const { data: session, isLoading: isSessionPending } = useSingleSession(
+    sessionId || "",
+    isEdit || false
+  );
   const [selectedTherapist, setSelectedTherapist] = useState("Terapeuta");
 
-  const submitFormHandler: SubmitHandler<AddSessionFormData> = (data) => {
-    const patient = patients.find((patient) => patient.id === data.patientId);
+  useEffect(() => {
+    if (isEdit && session) {
+      setSelectedTherapist(session.therapist);
+    }
+  }, [isEdit, session]);
 
+  const submitFormHandler: SubmitHandler<SessionFormData> = (data) => {
+    const patient = patients.find((patient) => patient.id === data.patientId);
     if (!patient) return;
 
     const { therapistId } = patient;
     const finalData = { ...data, therapistId };
-    mutate(finalData);
+    isEdit ? editSession(finalData) : createSession(finalData);
   };
 
   const handlePatientChange = (event: SingleValue<Option>) => {
@@ -60,10 +80,13 @@ const AddSessionModalContent = ({
     label: patient.name,
   }));
 
+  if (isSessionPending) return <Loader.Root className="w-5 h-5" />;
+  const isPending = isCreateSessionPending || isEditSessionPending;
+
   return (
     <section className="relative py-6 px-12 flex flex-col bg-neutral-300 dark:bg-neutral-900 rounded-lg">
       <h1 className="text-xl font-semibold text-center mb-4">
-        Adicionar nova sessão
+        {isEdit ? "Editar sessão" : "Adicionar nova sessão"}
       </h1>
       <CloseButton handleCloseModalClick={handleCloseModalClick} />
       <form
@@ -79,6 +102,7 @@ const AddSessionModalContent = ({
           <Controller
             control={control}
             name="patientId"
+            defaultValue={isEdit && session ? session.patientId : ""}
             render={({ field: { onChange, onBlur, ref } }) => (
               <SelectPatient
                 onChange={onChange}
@@ -86,6 +110,11 @@ const AddSessionModalContent = ({
                 ref={ref}
                 handlePatientChange={handlePatientChange}
                 mappedPatients={mappedPatients}
+                selectedPatient={
+                  isEdit && session
+                    ? { value: session.patientId, label: session.patient }
+                    : null
+                }
               />
             )}
           />
@@ -122,6 +151,11 @@ const AddSessionModalContent = ({
             id="sessionDate"
             placeholder="Data da sessão"
             type="datetime-local"
+            defaultValue={
+              isEdit && session
+                ? formatDateTimeForInput(session.sessionDate)
+                : ""
+            }
             {...register("sessionDate")}
           />
           {errors.sessionDate?.message && (
@@ -138,6 +172,7 @@ const AddSessionModalContent = ({
             type="number"
             placeholder="Duração da sessão em minutos"
             id="sessionDuration"
+            defaultValue={isEdit && session ? session.sessionDuration : ""}
             {...register("sessionDuration")}
           />
           {errors.sessionDuration?.message && (
@@ -151,6 +186,7 @@ const AddSessionModalContent = ({
           <Checkbox.Input
             type="checkbox"
             id="isRemote"
+            defaultChecked={isEdit && session ? session.isRemote : false}
             {...register("isRemote")}
           />
           <Checkbox.Label
@@ -166,6 +202,7 @@ const AddSessionModalContent = ({
           <Checkbox.Input
             type="checkbox"
             id="isAuthorized"
+            defaultChecked={isEdit && session ? session.isAuthorized : false}
             {...register("isAuthorized")}
           />
           <Checkbox.Label
@@ -183,6 +220,7 @@ const AddSessionModalContent = ({
             Token de autorização
           </DefaultInput.Label>
           <DefaultInput.Content
+            defaultValue={isEdit && session ? session.token : ""}
             placeholder="Token"
             id="token"
             {...register("token")}
@@ -201,6 +239,11 @@ const AddSessionModalContent = ({
             id="authorizationDate"
             placeholder="Data da autorização"
             type="date"
+            defaultValue={
+              isEdit && session?.authorizationDate
+                ? session.authorizationDate.split("T")[0]
+                : ""
+            }
             {...register("authorizationDate")}
           />
           {errors.authorizationDate?.message && (
@@ -214,6 +257,9 @@ const AddSessionModalContent = ({
           <Checkbox.Input
             type="checkbox"
             id="hasPatientAttended"
+            defaultChecked={
+              isEdit && session ? session.hasPatientAttended : false
+            }
             {...register("hasPatientAttended")}
           />
           <Checkbox.Label
@@ -237,6 +283,7 @@ const AddSessionModalContent = ({
             type="number"
             placeholder="Valor da sessão em reais"
             id="sessionValue"
+            defaultValue={isEdit && session ? session.sessionValue : ""}
             {...register("sessionValue")}
           />
           {errors.sessionValue?.message && (
@@ -245,7 +292,12 @@ const AddSessionModalContent = ({
         </DefaultInput.Root>
 
         <Checkbox.Root className="flex items-center gap-4">
-          <Checkbox.Input type="checkbox" id="isPaid" {...register("isPaid")} />
+          <Checkbox.Input
+            type="checkbox"
+            id="isPaid"
+            defaultChecked={isEdit && session ? session.isPaid : false}
+            {...register("isPaid")}
+          />
           <Checkbox.Label
             label="Sessão paga?"
             id="isPaid-label"
@@ -265,6 +317,11 @@ const AddSessionModalContent = ({
             id="paymentDate"
             placeholder="Data do pagamento"
             type="date"
+            defaultValue={
+              isEdit && session?.paymentDate
+                ? session.paymentDate.split("T")[0]
+                : ""
+            }
             {...register("paymentDate")}
           />
           {errors.paymentDate?.message && (
@@ -276,6 +333,7 @@ const AddSessionModalContent = ({
           <Checkbox.Input
             type="checkbox"
             id="isAccounted"
+            defaultChecked={isEdit && session ? session.isAccounted : false}
             {...register("isAccounted")}
           />
           <Checkbox.Label
@@ -297,6 +355,11 @@ const AddSessionModalContent = ({
             id="accountDate"
             placeholder="Data da contabilização"
             type="date"
+            defaultValue={
+              isEdit && session?.accountDate
+                ? session.accountDate.split("T")[0]
+                : ""
+            }
             {...register("accountDate")}
           />
           {errors.accountDate?.message && (
@@ -308,11 +371,15 @@ const AddSessionModalContent = ({
           className="col-span-3 justify-self-center w-[600px] flex flex-col justify-center items-center"
           type="submit"
         >
-          {isPending ? <Loader.Root className="w-5 h-5" /> : "Adicionar Sessão"}
+          {isPending ? (
+            <Loader.Root className="w-5 h-5" />
+          ) : (
+            `${isEdit ? "Editar" : "Adicionar"} Sessão`
+          )}
         </Button.Root>
       </form>
     </section>
   );
 };
 
-export default AddSessionModalContent;
+export default SessionModalContent;

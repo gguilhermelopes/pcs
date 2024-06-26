@@ -18,7 +18,7 @@ export interface Session {
   token?: string;
 }
 
-export interface SessionCreate
+export interface SessionMutate
   extends Omit<
     Session,
     | "id"

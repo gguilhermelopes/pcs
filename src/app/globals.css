@@ -63,6 +63,7 @@ body {
 .fc-timegrid-more-link {
   box-shadow: none;
   border-radius: 6px;
+  cursor: pointer;
 }
 
 .dark .fc-day-today {

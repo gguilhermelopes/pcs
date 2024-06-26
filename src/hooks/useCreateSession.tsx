@@ -1,10 +1,10 @@
 import notify from "@/helpers/notify";
-import { SessionCreate } from "@/interfaces/session";
+import { SessionMutate } from "@/interfaces/session";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
-const createSession = async (data: SessionCreate) => {
+const createSession = async (data: SessionMutate) => {
   const response = await fetch(`api/sessions`, {
     method: "POST",
     headers: {
@@ -20,6 +20,7 @@ const useCreateSession = (
   setIsAddSessionModalOpen: Dispatch<SetStateAction<boolean>>
 ) => {
   const router = useRouter();
+
   const mutate = useMutation({
     mutationFn: createSession,
     onSuccess: async (response, obj) => {

@@ -31,3 +31,34 @@ export async function GET(req: NextRequest, context: { params: Params }) {
     );
   }
 }
+
+export async function PUT(req: NextRequest, context: { params: Params }) {
+  const { id } = context.params;
+  const body = await req.json();
+  const token = cookies().get("token");
+
+  if (!id) {
+    return NextResponse.json(
+      { error: "Sessão não encontrada." },
+      { status: 404 }
+    );
+  }
+
+  if (!token) {
+    return new NextResponse("Não autorizado.", { status: 401 });
+  }
+
+  const response = await fetch(`${process.env.API_URL}/sessions/${id}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token.value}`,
+    },
+    body: JSON.stringify(body),
+  });
+
+  return new NextResponse(response.body, {
+    status: response.status,
+    headers: response.headers,
+  });
+}

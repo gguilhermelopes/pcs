@@ -8,20 +8,18 @@ export const LoginFormSchema = z.object({
   password: z.string().min(1, "Forneça sua senha."),
 });
 
-export const AddSessionFormSchema = z.object({
+export const SessionFormSchema = z.object({
   patientId: z
     .string({ message: "Paciente é obrigatório." })
     .uuid("Id do paciente inválido.")
     .min(1, "Paciente obrigatório."),
   therapistId: z.string().uuid("Id do terapeuta inválido.").optional(),
-  sessionDate: z.coerce
-    .date({
-      errorMap: (issue, { defaultError }) => ({
-        message:
-          issue.code === "invalid_date" ? "Data inválida." : defaultError,
-      }),
-    })
-    .min(new Date(), "A data deve ser posterior à atual."),
+  sessionDate: z.coerce.date({
+    errorMap: (issue, { defaultError }) => ({
+      message: issue.code === "invalid_date" ? "Data inválida." : defaultError,
+    }),
+  }),
+
   sessionDuration: z.coerce
     .number({ message: "Duração da sessão é obrigatória." })
     .min(15, "Duração mínima de uma sessão é 15 minutos."),

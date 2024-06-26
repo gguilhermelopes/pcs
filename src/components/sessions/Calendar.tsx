@@ -3,15 +3,14 @@
 import sessionsMapping from "@/helpers/sessionsMapping";
 import FullCalendar from "@fullcalendar/react";
 import timeGridPlugin from "@fullcalendar/timegrid";
-import { Suspense, use, useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Modal from "../UI/Modal";
-import SingleSessionModalContent from "./SingleSessionModalContent";
-import AddSessionModalContent from "./AddSessionModalContent";
 import { Loader } from "../UI/Loader";
 import SelectTherapistModalContent from "./SelectTherapistModalContent";
 import { Session } from "@/interfaces/session";
 import { Patient } from "@/interfaces/patient";
 import { Therapist } from "@/interfaces/therapist";
+import SessionModalContent from "./SessionModalContent";
 
 interface CalendarProps {
   sessions: Session[];
@@ -33,7 +32,7 @@ const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
     useState(false);
   const [isAddSessionModalOpen, setIsAddSessionModalOpen] = useState(false);
   const [isTherapistModalOpen, setIsTherapistModalOpen] = useState(false);
-  const [singleEventId, setSingleEventId] = useState<string | null>(null);
+  const [singleEventId, setSingleEventId] = useState("");
   const events = sessionsMapping(
     sessions.filter((session) => session.therapistId === therapist.value)
   );
@@ -55,14 +54,16 @@ const Calendar = ({ sessions, user, patients, therapists }: CalendarProps) => {
     <>
       <Modal.Root isModalOpen={isSingleSessionModalOpen}>
         <Suspense fallback={<Loader.Root />}>
-          <SingleSessionModalContent
+          <SessionModalContent
+            patients={patients}
+            setIsAddSessionModalOpen={setIsSingleSessionModalOpen}
+            isEdit
             sessionId={singleEventId}
-            setIsModalOpen={setIsSingleSessionModalOpen}
           />
         </Suspense>
       </Modal.Root>
       <Modal.Root isModalOpen={isAddSessionModalOpen}>
-        <AddSessionModalContent
+        <SessionModalContent
           patients={patients}
           setIsAddSessionModalOpen={setIsAddSessionModalOpen}
         />
