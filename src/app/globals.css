@@ -45,6 +45,27 @@ body {
   font-size: 1.25rem;
 }
 
+.fc .fc-scrollgrid {
+  border-radius: 6px;
+  border-bottom-width: 1px;
+  border-right-width: 1px;
+  overflow: hidden;
+}
+
+.fc-theme-standard td,
+.fc-theme-standard th {
+  border: 1px solid var(--fc-border-color);
+}
+
+.fc-theme-standard td:last-child,
+.fc-theme-standard th:last-child {
+  border-right: none;
+}
+
+.fc-theme-standard tr:last-child td {
+  border-bottom: none;
+}
+
 .fc-scrollgrid-sync-inner {
   font-weight: 400;
 }
@@ -64,6 +85,33 @@ body {
   box-shadow: none;
   border-radius: 6px;
   cursor: pointer;
+  position: relative;
+}
+
+.fc .done::after,
+.fc .pending::after {
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+  display: flex;
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  background: transparent;
+}
+
+.fc .done::after {
+  background: var(--color-success);
+}
+
+.fc .pending::after {
+  background: var(--color-danger);
+}
+
+.fc-event:focus.done::after,
+.fc-event:focus.pending::after {
+  background-color: transparent;
 }
 
 .dark .fc-day-today {

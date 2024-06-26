@@ -1,3 +1,4 @@
+import { transform } from "next/dist/build/swc";
 import type { Config } from "tailwindcss";
 
 const config: Config = {
@@ -28,26 +29,50 @@ const config: Config = {
           "linear-gradient(90deg, rgba(129,89,219,1) 0%, rgba(163,139,217,1) 100%)",
       },
       keyframes: {
-        leftToFull: {
-          to: { width: "100%" },
-        },
-        opacityToFull: {
-          to: { opacity: "1" },
-        },
-        opacityIn: {
-          to: { opacity: "initial", transform: "initial" },
-        },
         spin: {
           to: {
             transform: "rotate(360deg)",
           },
         },
+        scaleIn: {
+          from: {
+            transform: "scale(0.75)",
+          },
+          to: {
+            transform: "scale(1)",
+          },
+        },
+        scaleOut: {
+          from: {
+            transform: "scale(1)",
+          },
+          to: {
+            transform: "scale(0)",
+          },
+        },
+        fadeIn: {
+          from: {
+            opacity: "0",
+          },
+          to: {
+            opacity: "1",
+          },
+        },
+        fadeOut: {
+          from: {
+            opacity: "1",
+          },
+          to: {
+            opacity: "0",
+          },
+        },
       },
       animation: {
-        "left-to-full": "leftToFull .3s forwards",
-        "opacity-to-full": "opacityToFull .3s forwards",
-        "opacity-in": "opacityIn .75s forwards",
         "spin-loader": "spin 1s infinite",
+        "fade-in": "fadeIn .3s forwards",
+        "fade-out": "fadeOut .3s forwards",
+        "scale-in": "scaleIn .3s forwards",
+        "scale-out": "scaleOut .3s forwards",
       },
     },
   },

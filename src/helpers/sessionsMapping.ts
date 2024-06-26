@@ -1,5 +1,7 @@
-const sessionsMapping = (sessions: any) => {
-  const mappedSessions = sessions.map((session: any) => {
+import { Session } from "@/interfaces/session";
+
+const sessionsMapping = (sessions: Session[]) => {
+  const mappedSessions = sessions.map((session) => {
     const date = new Date(session.sessionDate);
     const start = date.toISOString();
     const end = new Date(
@@ -11,6 +13,10 @@ const sessionsMapping = (sessions: any) => {
       title: session.patient,
       start,
       end,
+      backgroundColor: session.hasPatientAttended ? "#e9b198" : "#db8159",
+      textColor: session.hasPatientAttended ? "#666" : "#fff",
+      classNames:
+        session.isAuthorized && session.isPaid ? ["done"] : ["pending"],
     };
   });
 

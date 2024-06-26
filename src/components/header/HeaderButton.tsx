@@ -6,7 +6,10 @@ interface HeaderButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const HeaderButton = ({ icon: Icon, ...props }: HeaderButtonProps) => {
   return (
-    <button {...props}>
+    <button
+      {...props}
+      className="transform-transition active:translate-y-[1px]"
+    >
       <Icon />
     </button>
   );
