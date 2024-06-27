@@ -5,6 +5,8 @@ import Sidebar from "@/components/sidebar";
 import Header from "@/components/header";
 import { Providers } from "./providers";
 import { Toaster } from "react-hot-toast";
+import { Suspense } from "react";
+import { Loader } from "@/components/UI/Loader";
 
 const monaSans = localFont({
   src: "./mona-sans.woff2",
@@ -26,11 +28,13 @@ export default function RootLayout({
       <body className={monaSans.className}>
         <Toaster />
         <Providers>
-          <Sidebar />
-          <div className="flex flex-col h-screen w-full bg-white dark:bg-neutral-900">
-            <Header />
-            {children}
-          </div>
+          <Suspense fallback={<Loader.Root className="w-5 h-5" />}>
+            <Sidebar />
+            <div className="flex flex-col h-screen w-full bg-white dark:bg-neutral-900">
+              <Header />
+              {children}
+            </div>
+          </Suspense>
         </Providers>
       </body>
     </html>

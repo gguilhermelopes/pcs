@@ -1,6 +1,6 @@
 import { Login } from "@/interfaces/login";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 
 interface UserContext {
   user: Login | null;
@@ -13,7 +13,6 @@ export const UserContext = createContext<UserContext>({
 export const UserContextProvider = ({ children }: PropsWithChildren) => {
   const [user, setUser] = useState<Login | null>(null);
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   useEffect(() => {
     const getUser = async () => {
@@ -22,7 +21,7 @@ export const UserContextProvider = ({ children }: PropsWithChildren) => {
       setUser(data);
     };
     getUser();
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return (
     <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>

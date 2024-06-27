@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { z } from "zod";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -22,7 +21,7 @@ const LoginForm = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<LoginFormData>({ resolver: zodResolver(LoginFormSchema) });
-  const router = useRouter();
+
   const { mutate, isPending } = useLogin();
   const { isRedirected } = useRedirected();
 
