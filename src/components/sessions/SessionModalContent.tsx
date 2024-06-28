@@ -40,6 +40,8 @@ const SessionModalContent = ({
     resolver: zodResolver(SessionFormSchema),
   });
 
+  console.log(patients);
+
   const { mutate: createSession, isPending: isCreateSessionPending } =
     useCreateSession(setIsAddSessionModalOpen);
   const { mutate: editSession, isPending: isEditSessionPending } =

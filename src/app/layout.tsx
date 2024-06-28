@@ -26,7 +26,6 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body className={monaSans.className}>
-        <Toaster />
         <Providers>
           <Suspense fallback={<Loader.Root className="w-5 h-5" />}>
             <Sidebar />
