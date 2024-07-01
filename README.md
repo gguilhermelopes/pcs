@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# psyclinic solutions
 
-## Getting Started
+![GitHub repo size](https://img.shields.io/github/repo-size/gguilhermelopes/pcs?style=for-the-badge)
+![GitHub language count](https://img.shields.io/github/languages/count/gguilhermelopes/pcs?style=for-the-badge)
 
-First, run the development server:
+<p align="center">
+<img src="./pcs.png" alt="preview img">
+</p>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+> Rede social para pets criada com React
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Ajustes e melhorias
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Projeto em andamento.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## 💻 Pré-requisitos
 
-## Learn More
+Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
-To learn more about Next.js, take a look at the following resources:
+- Você instalou a versão mais recente de `Node.js` e `npm`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🚀 Instalando psyclinic solutions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Para instalar o psyclinic solutions , siga estas etapas:
 
-## Deploy on Vercel
+- Clone esse repositório com `git clone https://github.com/gguilhermelopes/pcs`
+- Entre na pasta com `cd pcs`
+- Instale as dependências com `npm install`
+- É necessário um arquivo de váriaveis de ambiente (.env) como no exemplo abaixo
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  `API_URL = 'http://localhost:8080'
+LOGIN_CLIENT_ID = 'myclientid'
+LOGIN_CLIENT_SECRET='myclientsecret'`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## ☕ Usando psyclinic solutions
+
+Para usar psyclinic solutions, siga estas etapas:
+
+- Certifique-se de que todas as dependências foram instaladas, que o arquivo .env esteja configurado corretamente e que esteja na pasta do projeto. Utilize `npm run dev` e veja em qual porta do seu ambiente local ele foi executado.
