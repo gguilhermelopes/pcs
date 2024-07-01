@@ -164,6 +164,23 @@ const SessionModalContent = ({
         </DefaultInput.Root>
         <DefaultInput.Root>
           <DefaultInput.Label
+            label="Valor da sessão"
+            id="sessionValue-label"
+            htmlFor="sessionValue"
+          />
+          <DefaultInput.Content
+            type="number"
+            placeholder="Valor da sessão em reais"
+            id="sessionValue"
+            defaultValue={isEdit && session ? session.sessionValue : ""}
+            {...register("sessionValue")}
+          />
+          {errors.sessionValue?.message && (
+            <DefaultInput.ErrorMessage message={errors.sessionValue.message} />
+          )}
+        </DefaultInput.Root>
+        <DefaultInput.Root>
+          <DefaultInput.Label
             label="Duração da sessão (minutos)"
             id="sessionDuration-label"
             htmlFor="sessionDuration"
@@ -181,7 +198,6 @@ const SessionModalContent = ({
             />
           )}
         </DefaultInput.Root>
-
         <Checkbox.Root className="flex items-center gap-4">
           <Checkbox.Input
             type="checkbox"
@@ -198,6 +214,7 @@ const SessionModalContent = ({
             <DefaultInput.ErrorMessage message={errors.isRemote.message} />
           )}
         </Checkbox.Root>
+
         <Checkbox.Root className="flex items-center gap-4">
           <Checkbox.Input
             type="checkbox"
@@ -216,9 +233,12 @@ const SessionModalContent = ({
         </Checkbox.Root>
 
         <DefaultInput.Root>
-          <DefaultInput.Label label="Token" id="token-label" htmlFor="token">
-            Token de autorização
-          </DefaultInput.Label>
+          <DefaultInput.Label
+            label="Token de autorização"
+            id="token-label"
+            htmlFor="token"
+          />
+
           <DefaultInput.Content
             defaultValue={isEdit && session ? session.token : ""}
             placeholder="Token"
@@ -250,44 +270,6 @@ const SessionModalContent = ({
             <DefaultInput.ErrorMessage
               message={errors.authorizationDate.message}
             />
-          )}
-        </DefaultInput.Root>
-
-        <Checkbox.Root className="flex items-center gap-4">
-          <Checkbox.Input
-            type="checkbox"
-            id="hasPatientAttended"
-            defaultChecked={
-              isEdit && session ? session.hasPatientAttended : false
-            }
-            {...register("hasPatientAttended")}
-          />
-          <Checkbox.Label
-            label="Paciente compareceu?"
-            id="hasPatientAttended-label"
-            htmlFor="hasPatientAttended"
-          />
-          {errors.hasPatientAttended?.message && (
-            <DefaultInput.ErrorMessage
-              message={errors.hasPatientAttended.message}
-            />
-          )}
-        </Checkbox.Root>
-        <DefaultInput.Root>
-          <DefaultInput.Label
-            label="Valor da sessão"
-            id="sessionValue-label"
-            htmlFor="sessionValue"
-          />
-          <DefaultInput.Content
-            type="number"
-            placeholder="Valor da sessão em reais"
-            id="sessionValue"
-            defaultValue={isEdit && session ? session.sessionValue : ""}
-            {...register("sessionValue")}
-          />
-          {errors.sessionValue?.message && (
-            <DefaultInput.ErrorMessage message={errors.sessionValue.message} />
           )}
         </DefaultInput.Root>
 
@@ -328,6 +310,26 @@ const SessionModalContent = ({
             <DefaultInput.ErrorMessage message={errors.paymentDate.message} />
           )}
         </DefaultInput.Root>
+        <Checkbox.Root className="flex items-center gap-4">
+          <Checkbox.Input
+            type="checkbox"
+            id="hasPatientAttended"
+            defaultChecked={
+              isEdit && session ? session.hasPatientAttended : false
+            }
+            {...register("hasPatientAttended")}
+          />
+          <Checkbox.Label
+            label="Paciente compareceu?"
+            id="hasPatientAttended-label"
+            htmlFor="hasPatientAttended"
+          />
+          {errors.hasPatientAttended?.message && (
+            <DefaultInput.ErrorMessage
+              message={errors.hasPatientAttended.message}
+            />
+          )}
+        </Checkbox.Root>
 
         <Checkbox.Root className="flex items-center gap-4">
           <Checkbox.Input
