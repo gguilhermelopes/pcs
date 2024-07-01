@@ -7,7 +7,7 @@
 <img src="./pcs.png" alt="preview img">
 </p>
 
-> Rede social para pets criada com React
+> SaaS para gerenciamento de clínicas de psicologia criado com Next.js
 
 ### Ajustes e melhorias
 
@@ -28,9 +28,9 @@ Para instalar o psyclinic solutions , siga estas etapas:
 - Instale as dependências com `npm install`
 - É necessário um arquivo de váriaveis de ambiente (.env) como no exemplo abaixo
 
-  `API_URL = 'http://localhost:8080'
-LOGIN_CLIENT_ID = 'myclientid'
-LOGIN_CLIENT_SECRET='myclientsecret'`
+  `API_URL = 'http://localhost:8080'`
+  `LOGIN_CLIENT_ID = 'myclientid'`
+  `LOGIN_CLIENT_SECRET='myclientsecret'`
 
 ## ☕ Usando psyclinic solutions
 
