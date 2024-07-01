@@ -16,6 +16,10 @@ export async function GET(req: NextRequest, context: { params: Params }) {
     );
   }
 
+  if (!token) {
+    return new NextResponse("Não autenticado.", { status: 401 });
+  }
+
   try {
     const response = await fetch(`${process.env.API_URL}/sessions/${id}`, {
       headers: {

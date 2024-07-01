@@ -85,7 +85,6 @@ body {
   box-shadow: none;
   border-radius: 6px;
   cursor: pointer;
-  position: relative;
 }
 
 .fc .done::after,

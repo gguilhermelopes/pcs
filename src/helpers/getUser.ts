@@ -22,6 +22,8 @@ export async function getUser() {
       return { status: "invalid", message: "Erro de autenticação.", data };
     }
 
+    console.log(data.claims);
+
     if (data.status === "valid") {
       return {
         status: "valid",
