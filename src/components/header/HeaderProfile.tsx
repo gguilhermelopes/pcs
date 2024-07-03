@@ -4,7 +4,6 @@ import { UserContext } from "@/contexts/UserContext";
 
 const HeaderProfile = () => {
   const { user, employee } = useContext(UserContext);
-  console.log(employee);
 
   if (!user?.username) return null;
 
